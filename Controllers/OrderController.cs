@@ -43,12 +43,15 @@ namespace Northwind.Controllers
 
 
         [System.Web.Http.HttpGet]
-        //https://localhost:44325/api/order/OrderParamByShipCountryShipCity/?shipCountry=France&shipCity=Reims
-        public HttpResponseMessage OrderParamByShipCountryShipCity(string shipCountry = "", string shipCity ="")
+        //https://localhost:44325/api/order/OrderParamByCustomerShipCountryShipCity/?customerId=VINET&shipCountry=France&shipCity=Reims
+        public HttpResponseMessage OrderParamByCustomerShipCountryShipCity(string  customerId ="" , string shipCountry = "", string shipCity ="")
         {
             db.Configuration.ProxyCreationEnabled = false;
             IQueryable<Order> query = db.Orders;
-
+            if (customerId != "")
+            {
+                query = query.Where(e => e.CustomerID == customerId);
+            }
             if (shipCountry != "")
             {
                 query = query.Where(e => e.ShipCountry == shipCountry);
